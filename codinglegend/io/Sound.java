@@ -30,7 +30,7 @@ public class Sound {
         }
     }
 
-    /** Play the audio file */
+    /** Plays the audio file */
     public void play(){
         clip.start();
     }
