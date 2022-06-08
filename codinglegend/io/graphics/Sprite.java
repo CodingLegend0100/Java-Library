@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 import codinglegend.math.Vector2D;
 
 /** This class is intended for displaying static images onto the screen */
-public class Sprite {
+public class Sprite extends GraphicsObject {
 
     /** The center X and center Y of the sprite */
     public double x, y;
