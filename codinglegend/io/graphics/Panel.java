@@ -1,6 +1,8 @@
 package codinglegend.io.graphics;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 /** A JPanel with a premade update and repaint loop for easy use of java graphics.
@@ -10,6 +12,10 @@ public class Panel extends JPanel implements Runnable {
     protected int FPS = 60;
 
     private Thread drawThread;
+
+    public void setPreferredSize(int width, int height){
+        setPreferredSize(new Dimension(width, height));
+    }
 
 
     /** Creates a new thread to manage the update and repaint loop for this panel */
@@ -52,11 +58,11 @@ public class Panel extends JPanel implements Runnable {
     }
 
     public void update(){}
-    public void draw(Graphics g){}
+    public void draw(Graphics2D g){}
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        draw(g);
+        draw((Graphics2D)g);
         g.dispose();
     }
 }
