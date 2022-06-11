@@ -1,15 +1,15 @@
 package codinglegend.io.graphics.ui;
 
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import javax.swing.JComponent;
 
 import codinglegend.io.graphics.GraphicsUtil;
 
 /** A simpler and easier to understand button class than JButton */
-public class Button extends JComponent implements MouseListener, MouseMotionListener {
+public class Button extends Component implements MouseListener, MouseMotionListener {
 
     private ButtonController controller = new ButtonController();
     public ButtonStyle style = new ButtonStyle();
@@ -76,7 +76,7 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
         setBounds(getX()-px,getY()-px,getWidth()+2*px,getHeight()+2*px);
     }
 
-    public void paintComponent(Graphics g){
+    public void paint(Graphics g){
         
         //Draw the border
         if (style.border != null){
