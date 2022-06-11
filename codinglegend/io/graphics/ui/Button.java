@@ -11,8 +11,13 @@ import codinglegend.io.graphics.GraphicsUtil;
 /** A simpler and easier to understand button class than JButton */
 public class Button extends Component implements MouseListener, MouseMotionListener {
 
-    private ButtonController controller = new ButtonController();
+    private ButtonController controller = new ButtonController(){};
+
     public ButtonStyle style = new ButtonStyle();
+
+    // private ButtonStyle defaultStyle = new ButtonStyle();
+    // private ButtonStyle hoverStyle = new ButtonStyle();
+    // private ButtonStyle clickStyle = new ButtonStyle();
 
     String text = "";
 
@@ -63,6 +68,12 @@ public class Button extends Component implements MouseListener, MouseMotionListe
         addMouseListener(this);
         addMouseMotionListener(this);
     }
+
+    public void setButtonController(ButtonController c){
+        controller = c;
+    }
+
+    public ButtonController getButtonController(){ return controller; }
 
     public void setPos(int x, int y){
         setBounds(x,y,getWidth(),getHeight());

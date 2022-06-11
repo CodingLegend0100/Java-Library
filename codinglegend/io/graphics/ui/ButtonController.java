@@ -1,6 +1,6 @@
 package codinglegend.io.graphics.ui;
 
-public class ButtonController {
+public abstract class ButtonController {
 
     /** Called when the mouse enters the button bounds */
     public void mouseEntered(){
