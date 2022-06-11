@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 import codinglegend.math.Vector2D;
 
 /** This class is intended for displaying static images onto the screen */
-public class Sprite {
+public class Sprite extends GraphicsObject {
 
     /** The center X and center Y of the sprite */
     public double x, y;
@@ -72,33 +72,10 @@ public class Sprite {
 
     /** Sets the velocity vector of the sprite using cartesan coordinates */
     public void setVelocity(double x, double y){ velX = x; velY = y; }
-
     public void setVelocity(Vector2D v){ velX = v.getX(); velY = v.getY(); }
-
-    /** Sets the velocity of the sprite using a vector with direction and magnitude */
-    public void setVelocityVectorDeg(double magnitude, double degrees){
-        setVelocityVectorRad(magnitude,Math.toRadians(degrees));
-    }
-
-    /** Sets the velocity of the sprite using a vector with direction and magnitude */
-    public void setVelocityVectorRad(double magnitude, double radians){
-        x = Math.cos(radians);
-        y = Math.sin(radians);
-    }
 
     public void addVelocity(double x, double y){ velX += x; velY += y; }
     public void addVelocity(Vector2D v){ velX += v.getX(); velY += v.getY(); }
-
-    /** Adds a new vector to the current velocity vector */
-    public void addVelocityVectorDeg(double magnitude, double degrees){
-        addVelocityVectorRad(magnitude,Math.toRadians(degrees));
-    }
-
-    /** Adds a new vector to the current velocity vector */
-    public void addVelocityVectorRad(double magnitude, double radians){
-        x += Math.cos(radians);
-        y += Math.sin(radians);
-    }
 
     /** Returns a Vector2D of the current velocity vector */
     public Vector2D getVelocityVector(){ return new Vector2D(velX,velY); }
