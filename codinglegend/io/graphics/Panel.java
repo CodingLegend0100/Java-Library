@@ -13,6 +13,15 @@ public class Panel extends JPanel implements Runnable {
 
     private Thread drawThread;
 
+    public Panel(){
+        setLayout(null);
+    }
+
+    public Panel(int width, int height){
+        this();
+        setSize(width,height);
+    }
+
     public void setPreferredSize(int width, int height){
         setPreferredSize(new Dimension(width, height));
     }
