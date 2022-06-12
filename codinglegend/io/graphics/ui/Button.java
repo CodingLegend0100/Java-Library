@@ -1,5 +1,6 @@
 package codinglegend.io.graphics.ui;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
@@ -13,11 +14,12 @@ public class Button extends Component implements MouseListener, MouseMotionListe
 
     private ButtonController controller = new ButtonController(){};
 
-    public ButtonStyle style = new ButtonStyle();
+    private boolean mouseOver = false;
+    private boolean mouseDown = false;
 
-    // private ButtonStyle defaultStyle = new ButtonStyle();
-    // private ButtonStyle hoverStyle = new ButtonStyle();
-    // private ButtonStyle clickStyle = new ButtonStyle();
+    public ButtonStyle defaultStyle = new ButtonStyle().setBorder(Color.BLACK,2).setArcSize(3);
+    public ButtonStyle hoverStyle = new ButtonStyle().setBackgroundColor(new Color(200,200,200)).setBorder(Color.BLACK, 3).setArcSize(3);
+    public ButtonStyle clickStyle = new ButtonStyle().setBackgroundColor(Color.LIGHT_GRAY).setBorder(Color.GRAY,3).setArcSize(3);
 
     String text = "";
 
@@ -45,28 +47,35 @@ public class Button extends Component implements MouseListener, MouseMotionListe
 
     public Button(String text, ButtonStyle s){
         this(text);
-        style = s;
+        defaultStyle = s;
     }
 
     public Button(String text, int x, int y, ButtonStyle s){
         this(text,x,y);
-        style = s;
+        defaultStyle = s;
     }
 
     public Button(int x, int y, int width, int height,ButtonStyle s){
         this(x,y,width,height);
-        style = s;
+        defaultStyle = s;
     }
 
     public Button(String text, int x, int y, int width, int height, ButtonStyle s){
         this(text,x,y,width,height);
-        style = s;
+        defaultStyle = s;
 
     }
 
     private void initialize(){
         addMouseListener(this);
         addMouseMotionListener(this);
+    }
+
+    /** Sets all button styles (the default style, the hover style, and the click style) to this style */
+    public void setStyle(ButtonStyle s){
+        defaultStyle = s;
+        hoverStyle = s;
+        clickStyle = s;
     }
 
     public void setButtonController(ButtonController c){
@@ -88,7 +97,8 @@ public class Button extends Component implements MouseListener, MouseMotionListe
     }
 
     public void paint(Graphics g){
-        
+        ButtonStyle style = (mouseDown) ? clickStyle : (mouseOver) ? hoverStyle : defaultStyle;
+
         //Draw the border
         if (style.border != null){
             g.setColor(style.border);
@@ -111,44 +121,43 @@ public class Button extends Component implements MouseListener, MouseMotionListe
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
+    public void mouseDragged(MouseEvent e) {}
 
     @Override
-    public void mouseMoved(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
+    public void mouseMoved(MouseEvent e) {}
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
+    public void mouseClicked(MouseEvent e) {}
 
     @Override
     public void mousePressed(MouseEvent e) {
-        // TODO Auto-generated method stub
+        controller.buttonPressed();
+        mouseDown = true;
+        repaint();
         
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        // TODO Auto-generated method stub
+        if (mouseOver) controller.buttonClicked();
+        mouseDown = false;
+        repaint();
         
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-        if (e.getComponent() == this) controller.mouseEntered();
+    public void mouseEntered(MouseEvent e) {        
+        controller.mouseEntered();
+        mouseOver = true;
+        repaint();
         
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        if (e.getComponent() == this) controller.mouseExited();
+        controller.mouseExited();
+        mouseOver = false;
+        repaint();
         
     }
 }
