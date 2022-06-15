@@ -1,8 +1,6 @@
 package codinglegend.io.graphics;
 
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 /** A JPanel with a premade update and repaint loop for easy use of java graphics.
@@ -39,7 +37,7 @@ public class Panel extends JPanel implements Runnable {
     }
 
     /** The main method handing the update and repaint loop */
-    public void run(){
+    public final void run(){
         //How this works
         
         //Calculate nanoseconds between frames by
@@ -67,11 +65,5 @@ public class Panel extends JPanel implements Runnable {
     }
 
     public void update(){}
-    public void draw(Graphics2D g){}
 
-    public void paintComponent(Graphics g){
-        super.paintComponent(g);
-        draw((Graphics2D)g);
-        g.dispose();
-    }
 }

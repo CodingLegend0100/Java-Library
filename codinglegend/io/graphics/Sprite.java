@@ -1,6 +1,7 @@
 package codinglegend.io.graphics;
 
 import java.awt.Image;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -12,18 +13,20 @@ import codinglegend.math.Vector2D;
 /** This class is intended for displaying static images onto the screen */
 public class Sprite extends GraphicsObject {
 
-    /** The center X and center Y of the sprite */
-    public double x, y;
-    public double velX, velY;
-    public int width,height;
+    /** The X and Y coordinates of the sprite */
+    private double x, y;
 
-    /** The rotation of the sprite in degrees */
-    public double rotation;
+    /** The X and Y velocities of the sprite (pixels per frame) */
+    private double velX, velY;
 
-    public double rotationSpeed;
+    /** The rotation of the sprite in RADIANS */
+    private double rotation;
+
+    /** The rotation speed of the sprite in RADIANS*/
+    private double rotationSpeed;
 
     /** The image representing the sprite */
-    public Image image;
+    private Image image;
 
     /** Blank constructor for a blank sprite */
     public Sprite(){}
@@ -55,10 +58,9 @@ public class Sprite extends GraphicsObject {
 
     /**Create a sprite with the predetermined position and size */
     public Sprite(Image i,double x,double y,int width, int height){
+        setBounds((int)x,(int) y,width,height);
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
         image = i;
     }
 
@@ -68,9 +70,18 @@ public class Sprite extends GraphicsObject {
     }
 
     /** Sets the x and y of the sprite */
-    public void setPos(double x, double y){ this.x = x; this.y = y; }
+    public void setX(double x){ setLocation(x,y); }
+    public void setY(double y){ setLocation(x,y); }
+    public void setLocation(double x, double y){
+        this.x = x;
+        this.y = y;
+        setLocation((int) x, (int) y);
+    }
 
     /** Sets the velocity vector of the sprite using cartesan coordinates */
+    public void setVelocityX(double x){ velX = x; }
+    public void setVelocityY(double y){ velY = y; }
+
     public void setVelocity(double x, double y){ velX = x; velY = y; }
     public void setVelocity(Vector2D v){ velX = v.getX(); velY = v.getY(); }
 
@@ -80,14 +91,30 @@ public class Sprite extends GraphicsObject {
     /** Returns a Vector2D of the current velocity vector */
     public Vector2D getVelocityVector(){ return new Vector2D(velX,velY); }
 
-    /** Set the width and height off the sprite */
-    public void setSize(int w, int h){ width = w; height = h; }
+    public Image getImage(){ return image; }
+    public void setImage(Image i){
+        image = i;
+        //repaint();
+    }
+
+    /** Sets the rotation of the sprite */
+    public void setRotation(double degrees){
+        rotation = Math.toRadians(degrees);
+    }
+    /** Returns the rotation of this object in degrees */
+    public double getRotation(){
+        return Math.toDegrees(rotation);
+    }
+
+    /** Sets the rotation speed of the sprite */
+    public void setRotationSpeed(double degrees){
+        rotationSpeed = Math.toRadians(degrees);
+    }
 
     /** Check if two sprites are colliding */
     public boolean checkCollision(Sprite s){
-        //If this.right > s.left && this.left < s.right && this.bottom > s.top && this.top < s.bottom
-        Rectangle collide1 = new Rectangle((int)x+width/2,(int)y+height/2,width,height);
-        Rectangle collide2 = new Rectangle((int)s.x-s.width/2,(int)s.y-s.height/2,s.width,s.height);
+        Rectangle collide1 = getBounds();
+        Rectangle collide2 = s.getBounds();
         return collide1.intersects(collide2) || collide1.contains(collide2) || collide2.contains(collide1);
     }
 
@@ -106,20 +133,22 @@ public class Sprite extends GraphicsObject {
     public void update(){
         x += velX;
         y += velY;
+        setLocation(x,y);
+
         rotation += rotationSpeed;
     }
 
     /** Draws the sprite */
-    public void draw(Graphics2D g){
+    public void paintComponent(Graphics g){
         if (image == null) return; //Dont draw if there is no image
 
-        double rotate = Math.toRadians(rotation);
+        Graphics2D g2 = (Graphics2D) g; //Use graphics 2d to make use of rotation
 
-        g.rotate(rotate,x,y); //Rotate the canvas centered on the sprite
+        g2.rotate(rotation,getWidth()/2.0,getHeight()/2.0); //Rotate the canvas centered on the sprite
         
-        g.drawImage(image,(int)x-width/2,(int)y-height/2,width,height,null);
+        g2.drawImage(image,0,0,getWidth(),getHeight(),null);
 
-        g.rotate(-rotate,x,y); //Rotate the canvas back to original
+        g2.rotate(-rotation,getWidth()/2.0,getHeight()/2.0); //Rotate the canvas back to original
 
     }
 }
