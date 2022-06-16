@@ -12,6 +12,14 @@ public abstract class GraphicsObject extends JComponent {
         setLocation(getX(),y);
     }
 
+    public void setWidth(int w){
+        setSize(w,getHeight());
+    }
+
+    public void setHeight(int h){
+        setSize(getWidth(),h);
+    }
+
     public abstract void update();
     public abstract void paintComponent(Graphics g);
 }
