@@ -1,6 +1,5 @@
 package codinglegend.io.graphics;
 
-import java.awt.Graphics;
 import javax.swing.JComponent;
 
 public abstract class GraphicsObject extends JComponent {
@@ -20,6 +19,5 @@ public abstract class GraphicsObject extends JComponent {
         setSize(getWidth(),h);
     }
 
-    public abstract void update();
-    public abstract void paintComponent(Graphics g);
+    public void update(){}
 }
